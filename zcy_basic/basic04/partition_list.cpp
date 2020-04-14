@@ -45,10 +45,148 @@ public:
 			p = p->next;			
 		}
 	}
+
+	node* partitionList02(node *list, int pivot) {
+		node *less, *equal, *large;
+		node *p = list;
+		less = equal = large = NULL;
+		while(p != NULL) {
+			if(p->val < pivot)	
+				less = less? less : p;
+			else if (p->val > pivot)
+				large = large? large : p;
+			else
+				equal = equal? equal : p;
+
+			p = p->next;
+		}
+
+	 	node *tmp_less, *tmp_equal, *tmp_large;
+		tmp_less = less, tmp_equal = equal, tmp_large = large;
+		p = list;
+		while(p != NULL) {
+			if(p == less || p == equal || p == large) {
+				p = p->next;		
+				continue;
+			}			
+
+			if(p->val < pivot && tmp_less) {
+				tmp_less->next = p;	
+				tmp_less = tmp_less->next;
+			}
+			else if(p->val > pivot && tmp_large) {
+				tmp_large->next = p;	
+				tmp_large = tmp_large->next;
+			}
+			else if(p->val == pivot && tmp_equal) {
+				tmp_equal->next = p;		
+				tmp_equal= tmp_equal->next;
+			}				
+
+			p = p->next;
+		}
+
+		if(tmp_less) tmp_less->next = NULL;
+		if(tmp_equal) tmp_equal->next = NULL;
+		if(tmp_large) tmp_large->next = NULL;
+
+/*
+		p = less;
+		while(p) {
+			cout << p->val << " ";	
+			p = p->next;
+		}
+		cout << endl;
+			
+		p = equal;
+		while(p) {
+			cout << p->val << " ";	
+			p = p->next;
+		}
+		cout << endl;
+
+		p = large;
+		while(p) {
+			cout << p->val << " ";	
+			p = p->next;
+		}
+		cout << endl;
+*/
+		
+		if(less && equal && large)  
+		{ // both don't empty
+			tmp_less->next = equal;	
+			tmp_equal->next = large;
+			return less;
+		}
+		else if(!less && equal && large)
+		{ // less is empty
+			tmp_equal->next = large;
+			return equal;
+		}
+		else if(less && !equal && large) 
+		{ // equal is empty
+			tmp_less->next= large;	
+			return less;
+		}
+		else if(less && equal && !large)
+		{ // large is empty
+			tmp_less->next = equal;	
+			return less;
+		}
+		else
+			return list;
+
+#if 0 
+//error
+		p = less;
+		node *tmp = p;
+		while(p != NULL && p->next != NULL) {
+			p = p->next;
+			if(p->val < pivot) {
+				tmp->next = p;
+				tmp = tmp->next;
+				cout << tmp->val << " ";
+			}
+		}
+
+		cout << endl;
+
+		p = equal;
+		tmp = p;
+		while(p != NULL && p->next != NULL) {
+			p = p->next;
+			if(p->val == pivot) {
+				tmp->next = p;
+				tmp = tmp->next;
+				cout << tmp->val << " ";
+			}
+		}
+
+		cout << endl;
+	
+		p = large;
+		tmp = p;
+		while(p != NULL && p->next != NULL) {
+			p = p->next;
+			if(p->val > pivot) {
+				tmp->next = p;
+				tmp = tmp->next;
+				cout << tmp->val << " ";
+			}
+		}
+		
+		cout << endl;
+
+#endif
+
+	}	
 };
 	
 int main() {
-	vector<int> arr = {3, 5, 2, 4, 6, 1};
+	vector<int> arr = {3, 5, 2, 2, 6, 1};
+	//vector<int> arr = {7, 3, 4, 6, 0, 4};
+	
 	node *list[6];
 	for(int i=0; i<6; i++) {
 		list[i] = new node;
@@ -60,13 +198,12 @@ int main() {
 	list[5] = NULL;
 
 	Solution sol;
-	sol.partitionList(list[0], 3);
-	node *p = list[0];
+	node *p = sol.partitionList02(list[0], 4);
 	while(p) 
 		cout << p->val << " ", p = p->next;
 	cout << endl;
 
-	for(int i=0; i<list.size(); i++)
+	for(int i=0; i<arr.size(); i++)
 		delete list[i];
 }
 
