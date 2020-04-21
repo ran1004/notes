@@ -1,10 +1,11 @@
+#ifndef UNION_FIND_H
+#define UNION_FIND_H
 #include<iostream>
 #include<map>
 #include<list>
 using namespace std;
 
-
-template<typename T>
+template <typename T>
 class UnionFind {
 public:	
 	class Node {
@@ -69,6 +70,10 @@ public:
 			}
 		}
 	};
+
+
 };
 
+
+#endif
 
