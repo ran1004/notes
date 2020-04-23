@@ -10,14 +10,17 @@ Graph *CreateGraph(int matrix[][3], int n) {
 			graph->nodes[from] = new Node(from);
 		if(graph->nodes.find(to) == graph->nodes.end())
 			graph->nodes[to] = new Node(to);
+		if(to == from)
+			continue;
 
 		Node *from_node = graph->nodes[from];
 		Node *to_node = graph->nodes[to];
 
-		Edge *new_edge = new Edge(Weight, from_node, to_node);
+		Edge *new_edge = new Edge(weight, from_node, to_node);
 		from_node->nexts.push_back(to_node);
 		from_node->out++;
 		from_node->edges.push_back(new_edge);
+
 		to_node->in++;
 		graph->edges.insert(new_edge);
 	}

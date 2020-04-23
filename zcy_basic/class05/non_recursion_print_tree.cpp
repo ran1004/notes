@@ -12,7 +12,6 @@ struct node {
 	}
 };
 
-
 class Solution {
 public:
 	void NonRecurisonPreorder(node *root) {
