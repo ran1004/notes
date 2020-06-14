@@ -78,3 +78,36 @@ int main(){
     return 0;
 }
 ```
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+const int N = 1e5;
+int q[N], a[N], R[N], L[N];
+
+int main() {
+    freopen("in.txt", "r", stdin);
+    int n;
+    scanf("%d", &n);
+    for (int i = 1; i <= n; ++i) scanf("%d", a + i); 
+
+    int l = 0, r  = -1; 
+    for (int i = 1; i <= n; ++i) R[i] = n + 1;
+    for (int i = 1; i <= n; ++i) {
+        while (l <= r && a[q[r]] > a[i]) {
+            R[q[r]] = i;
+            --r;
+        }
+        if (l <= r) L[i] = q[r] + 1;
+        else L[i] = 1;
+        q[++r] = i;
+    }   
+
+    for (int i = 1; i <= n; ++i) printf("%d ", a[i]);
+    puts("");
+    for (int i = 1; i <= n; ++i) printf("%d ", L[i]);
+    puts("");
+    for (int i = 1; i <= n; ++i) printf("%d ", R[i]);
+    puts("");
+}
+```
